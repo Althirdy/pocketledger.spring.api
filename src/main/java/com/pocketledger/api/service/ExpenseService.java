@@ -39,6 +39,10 @@ public class ExpenseService {
     }
 
     public void deleteExpense(Long id){
+        if(!repository.existsById(id)){
+            throw new ResourceNotFoundException("Expense with ID " + id + " not found");
+        }
+
         repository.deleteById(id);
     }
 

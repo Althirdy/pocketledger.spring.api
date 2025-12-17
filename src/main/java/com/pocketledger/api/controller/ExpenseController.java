@@ -1,7 +1,10 @@
 package com.pocketledger.api.controller;
 
+import com.pocketledger.api.dto.ApiResponse;
 import com.pocketledger.api.entity.Expense;
 import com.pocketledger.api.service.ExpenseService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,19 +20,24 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public List<Expense> getAllExpenses(){
-        return expenseService.getAllExpenses();
+    public ResponseEntity<ApiResponse<List<Expense>>> getAllExpenses(){
+        List<Expense> expenses =  expenseService.getAllExpenses();
+        ApiResponse<List<Expense>> response = new ApiResponse<>("Expenses fetched successfully", expenses);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public Expense saveExpense(@RequestBody Expense expense){
-        return expenseService.saveExpense(expense);
+    public ResponseEntity<ApiResponse<Expense>> saveExpense(@Valid @RequestBody Expense expense){
+        Expense newExpense =  expenseService.saveExpense(expense);
+        ApiResponse<Expense> response = new ApiResponse<>("Expense Saved Successfully", newExpense);
+        return ResponseEntity.status(201).body(response);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteExpense(@PathVariable Long id){
+    public ResponseEntity<ApiResponse<String>> deleteExpense(@PathVariable Long id){
         expenseService.deleteExpense(id);
-        return "Expense deleted successfully";
+        ApiResponse<String> response = new ApiResponse<>("Expense Deleted Successfully",null);
+        return ResponseEntity.ok(response);
     }
 
 }
