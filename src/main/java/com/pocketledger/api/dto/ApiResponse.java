@@ -26,7 +26,7 @@ public class ApiResponse<T> {
         this.timestamp = LocalDateTime.now();
     }
 
-    public ApiResponse(T data,String message, Boolean status){
+    public ApiResponse(String message,T data, Boolean status){
         this.success = status;
         this.data = data;
         this.message = message;

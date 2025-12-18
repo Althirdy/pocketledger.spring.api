@@ -3,17 +3,18 @@ package com.pocketledger.api.exception;
 import com.pocketledger.api.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -40,11 +41,21 @@ public class GlobalExceptionHandler {
             }
         });
 
-        ApiResponse<Map<String,List<String>>> response = new ApiResponse<>(
-                errors,
-                "Validation Field",
-                false
+        ApiResponse<Map<String, List<String>>> response = new ApiResponse<>(
+                "Validation Failed", // Message First
+                errors,              // Data Second
+                false                // Success Third
         );
         return  new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<String>> handleJsonErrors(HttpMessageNotReadableException ex) {
+        ApiResponse<String> response = new ApiResponse<>(
+                "Invalid JSON format. Please check your fields (dates, numbers, enums).",
+                null,
+                false
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
