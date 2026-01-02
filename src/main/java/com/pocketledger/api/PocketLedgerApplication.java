@@ -1,5 +1,6 @@
 package com.pocketledger.api;
 
+import com.pocketledger.api.entity.Category;
 import com.pocketledger.api.entity.Expense;
 import com.pocketledger.api.repository.ExpenseRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -17,15 +18,15 @@ public class PocketLedgerApplication {
 		SpringApplication.run(PocketLedgerApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner commandLineRunner(ExpenseRepository expenseRepository){
-		return  args -> {
-			Expense expense = new Expense();
-			expense.setDescription("Transportation Expense");
-			expense.setAmount(BigDecimal.valueOf(20.50));
-			expense.setDate(LocalDate.now());
-			expense.setCategory("TRANSPORTATION");
-			expenseRepository.save(expense);
-		};
-	}
+//	@Bean
+//	CommandLineRunner commandLineRunner(ExpenseRepository expenseRepository){
+//		return  args -> {
+//			Expense expense = new Expense();
+//			expense.setDescription("Transportation Expense");
+//			expense.setAmount(BigDecimal.valueOf(20.50));
+//			expense.setDate(LocalDate.now());
+//			expense.setCategory(Category.TRANSPORT);
+//			expenseRepository.save(expense);
+//		};
+//	}
 }

@@ -1,5 +1,6 @@
 package com.pocketledger.api.dto;
 
+import com.pocketledger.api.entity.Category;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -23,6 +24,6 @@ public class ExpenseRequest {
     @PastOrPresent(message = "Transaction date cannot be in the future")
     private LocalDate date;
 
-    @NotBlank(message = "Category is required")
-    private String category;
+    @NotNull(message = "Category is required")
+    private Category category;
 }

@@ -1,6 +1,7 @@
 package com.pocketledger.api.dto;
 
 
+import com.pocketledger.api.entity.Category;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,6 +13,6 @@ public class ExpenseResponse {
     private String description;
     private BigDecimal amount;
     private LocalDate date;
-    private String category;
+    private Category category;
 
 }
